@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+<title>Welcome to our page</title>
+<style>
+body{
+
+background-image:url(https://media.alalam.ir/uploads/855x495/2023/02/10/167600373384919900.jpg);
+}
+
+h2 {
+color:red;
+}
+div{
+border:200px soild;
+padding-top: 100px;
+padding-right:100px;
+padding-bottom:100px;
+padding-left:100px;
+
+}
+a:link{
+color:pink;
+}
+a:visited{
+color:pink;
+}
+a:hover{
+color:blue;
+}
+a:active{
+color:green;
+}
+
+
+</style>
+</head>
+<body>
+<a href="https://www.home.com">Home</a> &nbsp;&nbsp;<a href="https://www.about.com">About</a>&nbsp;&nbsp;<a href="https://www.gallery.com">Gallery</a>&nbsp;&nbsp:<a href="https://www.city.com">City</a>
+<h2 class="my class"> Who Are We </h2>
+<select id='language-selector'>
+    <option value='en'>English</option>
+    <option value='ar'>العربية</option>
+
+</select>
+<p data-lang='rt'>الهدف من انشاء الموقع وهو معرفة افضل الاماكن موجودة في مصر ومعرفة افضل الاسعار فيها دون التعرض الاحتيال</p>
+<script src="language.js">
+    let lang={
+
+        en:{
+           rt:"our goal of creating the site is to know the best places in egypt and findout the best prices there without being exposed to fraud"
+            
+
+        },
+        ar: {
+            rt:"الهدف من انشاء الموقع وهو معرفة افضل الاماكن موجودة في مصر ومعرفة افضل الاسعار فيها دون التعرض الاحتيال"
+        }
+    }
+
+    let selector = document.getElementById('language-selector');
+    selector.onchange = updateLanguage();
+
+    function updatelanguage() {
+        let language=selector.option[selector.selectedindex].value;
+        let nodes = document.querySelectorAll('[data-lang]');
+
+        let i = nodes.length;
+
+        while(i--) {
+            let key = nodes[i].getAttribute('data-lang');
+            nodes[i].innerHTML = lang[language][key];
+        }
+    }
+</script>
+<h2> Registration Form</h2>
+<label for="txtbox1"> User name:</label>
+<input id="txtbox1" type="text" name="User name" placeholder="ahmed" required>
+<br>
+<br>
+<br>
+<label for="txtbox2">Last name:</label>
+<input id="txttbox2" type="text" name="Last name" placeholder="yasser" required>
+<br>
+<br>
+<br>
+<label for="Birthdate">Birthday:</label>
+<input id="Birthdate" type="date" name="Birthday" placeholder="year/day/month" required >
+<br> 
+<br>
+<br>
+<label for="male2"> Male</label>
+<input id="male2" type="radio" name="male_or_female" value="male">
+<label for="female1"> Female</label>
+<input id="female1" type="radio" name="male_or_female" value="female">
+<br>
+<br>
+<br>
+<label for="email2"> Email:</label>
+<input id="email2" type="email" name="Email" placeholder="laila@gmail.com" required>
+<br>
+<br>
+<br>
+<form method="post" action="connect.php">
+    username : <input type="text" name="username"> <br><br>
+    Password : <input type ="password" name="password"> <br><br>
+    <input type ="submit" value="Submit">
+    <?php
+    $username = filter_input(INPUT_POST,'username');
+    $password = filter_input(INPUT_POST, 'password');
+    if (!empty($username)){
+        if (!empty($password)){
+            $host = "localhost";
+            $dbusername = "root";
+            dbpassword = "";
+            dbname = "mytravel";
+            $conn = new mysqli ($host, $dbusername, $dbpassword, $dbname);
+            if (mysqli_connect_error()){
+                die('connect Error(' . mysqli_connect_errno().')'
+                . mysqli_connect_error());
+
+            }
+            else{
+                $sql = "INSERT INTO mytravel (username,password)
+                values ('$username','$password')";
+                if ($conn->query($sql)){
+                    echo "New record is inserted sucessfully";
+
+                }echo "error:" .$sql."<br>".$conn->error;
+                }
+                $conn->close();
+            }
+
+        }
+        else{
+            echo "password should not be empty";
+            die();
+        }
+        else{
+            echo "username should not be empty";
+            die();
+        }
+    }
+    ?>
+</form>
+
+</body>
+
+</html>
